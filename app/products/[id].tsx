@@ -28,31 +28,42 @@ export default function ProductScreen() {
   }, []);
 
   const fetchProduct = async () => {
-    try {
-      const response = await api.get(`/products/${id}`);
+  try {
+    console.log("Fetching product:", id);
 
-      setProduct(response.data);
+    const response = await api.get(`/products/${id}`);
 
-      await saveHistory({
-        id: Date.now(),
-        productId: response.data.id,
-        title: response.data.title,
-        time: new Date().toLocaleString(),
-      });
+    console.log("Product fetched:", response.data);
 
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Product Scanned",
-          body: `${response.data.title} added to history`,
-        },
-        trigger: null,
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    setProduct(response.data);
+
+    await saveHistory({
+      id: Date.now(),
+      productId: response.data.id,
+      title: response.data.title,
+      time: new Date().toLocaleString(),
+    });
+
+    console.log("Saved to history");
+
+    console.log("Sending notification...");
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Product Scanned ✅",
+        body: `${response.data.title} added to history`,
+        sound: true,
+      },
+      trigger: null,
+    });
+
+    console.log("Notification sent successfully");
+  } catch (error) {
+    console.log("Fetch Product Error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return (

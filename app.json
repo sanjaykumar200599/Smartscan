@@ -3,18 +3,27 @@
     "name": "SmartScan",
     "slug": "smartscan",
     "scheme": "smartscan",
-
     "userInterfaceStyle": "automatic",
-
-    "plugins": ["expo-router"],
-
+    "plugins": [
+      "expo-router",
+      "expo-notifications"
+    ],
     "android": {
-      "permissions": ["CAMERA"]
+      "permissions": [
+        "CAMERA",
+        "CAMERA"
+      ],
+      "package": "com.sanjaykumar_1818.smartscan"
     },
-
     "ios": {
       "infoPlist": {
         "NSCameraUsageDescription": "Allow camera access"
+      }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "faf7b8c5-90ea-4796-9f34-87536ef5b053"
       }
     }
   }
